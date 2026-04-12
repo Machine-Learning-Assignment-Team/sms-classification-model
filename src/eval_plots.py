@@ -51,7 +51,7 @@ def plot_confusion_matrix(y_true, y_pred, target_names=None, title="Confusion Ma
     cm = confusion_matrix(y_true, y_pred)
 
     if target_names is None:
-        target_names = ["ham", "spam"]
+        target_names = ["Not Spam", "Spam"]
 
     fig, ax = plt.subplots(figsize=(6, 4))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
@@ -74,7 +74,7 @@ def get_top_features(model, vectorizer, class_labels=None, n=20):
     log_probs = model.feature_log_prob_
 
     if class_labels is None:
-        class_labels = ["ham", "spam"]
+        class_labels = ["Not Spam", "Spam"]
 
     result = {}
     for i, label in enumerate(class_labels):
@@ -137,7 +137,7 @@ def plot_f1_comparison(results_df, metric_col="mean_f1", param_col="params",
 def evaluate_full(model, vectorizer, x_test, y_test):
     y_pred = model.predict(x_test)
 
-    metrics = compute_metrics(y_test, y_pred, target_names=["ham", "spam"])
+    metrics = compute_metrics(y_test, y_pred, target_names=["Not Spam", "Spam"])
     print_metrics(metrics)
 
     fig_cm = plot_confusion_matrix(y_test, y_pred)
