@@ -56,4 +56,4 @@ def train_and_evaluate_model(x_train, y_train, x_test, y_test):
     print(f"F1-Score:  {metrics['Test']['F1-Score']:.4f}")
     print("-" * 40)
 
-    return best_model, metrics
+    return best_model, metrics, grid_search
