@@ -14,7 +14,7 @@ def clean_text(text):
     Output: cleaned string
     """
     if text is None:
-        return []
+        return ""
     # Text to lowercase:
     text = text.lower()
 
@@ -31,6 +31,22 @@ def clean_text(text):
 
 
     # getting only words that are not in the stop words
-    text = [word for word in text.split() if word not in STOP_WORDS]
+    words_list = [word for word in text.split() if word not in STOP_WORDS]
 
-    return  text
+    return  " ".join(words_list)
+
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+def vectorize_data(train_texts, test_texts):
+    #Creating the TfidfVectorizer object
+    vectorizer = TfidfVectorizer(max_features=5000)
+
+    #Fit and Transform on the train text
+    X_train_transformed = vectorizer.fit_transform(train_texts)
+
+    # Transform on the test text
+    X_test_transformed = vectorizer.transform(test_texts)
+
+    return  X_train_transformed, X_test_transformed, vectorizer
+
