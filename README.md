@@ -76,8 +76,6 @@ The system processes this raw text through multiple preprocessing steps before f
 * **Data Processing:** pandas, numpy
 * **Natural Language:** NLTK (stopwords)
 * **Visualization:** matplotlib, seaborn
-* **Environment:** Virtual environment (venv)
-
 ## Getting Started
 
 ### Prerequisites
@@ -90,20 +88,7 @@ The system processes this raw text through multiple preprocessing steps before f
    ```bash
    cd email-classification-model
    ```
-3. Create a virtual environment:
-   ```bash
-   python3 -m venv venv
-   ```
-4. Activate the virtual environment:
-   - **Windows:**
-     ```bash
-     venv\Scripts\activate
-     ```
-   - **Mac/Linux:**
-     ```bash
-     source venv/bin/activate
-     ```
-5. Install dependencies:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
@@ -281,7 +266,6 @@ email-classification-model/
 │   ├── top_features.png
 │   ├── class_distribution.png
 │   └── text_length_distribution.png
-├── venv/                       # Virtual environment (created)
 ├── main.py                     # Main execution script
 ├── requirements.txt            # Python dependencies
 ├── README.md                   # Project documentation
