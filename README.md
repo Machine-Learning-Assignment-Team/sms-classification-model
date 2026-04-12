@@ -3,9 +3,8 @@
 A machine learning project for classifying emails as spam or not spam using Natural Language Processing (NLP) techniques and the Multinomial Naive Bayes algorithm. This project demonstrates text preprocessing, feature extraction, model training, and evaluation on a real-world email dataset.
 
 ## About The Project
-
-<img width="600" height="400" alt="Confusion Matrix" src="plots/confusion_matrix.png" />
-<img width="800" height="400" alt="Top Features" src="plots/top_features.png" />
+<img width="600" height="400" alt="confusion_matrix" src="https://github.com/user-attachments/assets/b579331a-8da9-4ed8-b506-fb3fb97eed48" />
+<img width="1200" height="500" alt="top_features" src="https://github.com/user-attachments/assets/10ac6046-c0d4-47ed-9d9c-94dd1e33ea75" />
 
 The goal of this project is to build an effective spam email classifier using machine learning. By implementing text preprocessing techniques like cleaning, stopword removal, and TF-IDF vectorization, combined with a probabilistic classifier, the model achieves high accuracy in distinguishing between legitimate emails and spam.
 
@@ -197,22 +196,26 @@ n=15  # Adjust for more/less top words
 After running `main.py`, the following visualizations are generated:
 
 ### 1. Confusion Matrix
-<img width="600" height="400" alt="Confusion Matrix" src="plots/confusion_matrix.png" />
+
+<img width="600" height="400" alt="confusion_matrix" src="https://github.com/user-attachments/assets/4a10ee77-07fe-4764-97a9-8f27613e725f" />
 
 Shows the number of true positives, true negatives, false positives, and false negatives. Helps understand the model's classification performance and identify areas for improvement.
 
 ### 2. Top Features per Class
-<img width="800" height="400" alt="Top Features" src="plots/top_features.png" />
+
+<img width="1200" height="500" alt="top_features" src="https://github.com/user-attachments/assets/8eb75e72-95b9-492c-84ec-03c9bf6147da" />
 
 Displays the most indicative words for spam and non-spam emails based on log probabilities from the Naive Bayes model. Useful for understanding what features the model considers important for classification.
 
 ### 3. Class Distribution
-<img width="600" height="400" alt="Class Distribution" src="plots/class_distribution.png" />
+
+<img width="600" height="400" alt="class_distribution" src="https://github.com/user-attachments/assets/bd95320e-3020-464c-8504-79b513f98d72" />
 
 Bar chart showing the distribution of spam vs non-spam emails in the training set. Helps identify class imbalance issues that may affect model training.
 
 ### 4. Text Length Distribution
-<img width="800" height="400" alt="Text Length Distribution" src="plots/text_length_distribution.png" />
+
+<img width="800" height="500" alt="text_length_distribution" src="https://github.com/user-attachments/assets/5438b45e-2e53-498c-92c9-2676f18d2d37" />
 
 Overlapping histograms comparing text lengths between spam and non-spam emails. Can reveal patterns in email content length that correlate with spam classification.
 
