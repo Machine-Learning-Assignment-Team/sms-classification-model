@@ -8,7 +8,8 @@ def train_and_evaluate_model(x_train, y_train, x_test, y_test):
 
     base_model = MultinomialNB()
     param_grid = {
-        'alpha': [0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
+        'alpha': [0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0],
+        'fit_prior': [True, False]
     }
 
     grid_search = GridSearchCV(
