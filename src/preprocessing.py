@@ -51,7 +51,7 @@ def vectorize_data(train_texts, test_texts):
     Converts text to binary vectors (0 or 1) based on word presence.
     Uses CountVectorizer with binary=True as per assignment requirements.
     """
-    #Creating the TfidfVectorizer object
+    #Creating the CountVectorizer object
     vectorizer = CountVectorizer(max_features=5000,binary=True)
 
     #Fit and Transform on the train text
