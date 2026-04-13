@@ -79,7 +79,8 @@ class CustomGridSearch:
 
     def fit(self, X, y):
         combinations = self._generate_combinations(self.param_grid)
-        
+        self.cv_results_ = []
+
         y = np.array(y)
         n_samples = X.shape[0]
         indices = np.arange(n_samples)
@@ -107,12 +108,23 @@ class CustomGridSearch:
                 
                 _, _, _, f1 = calculate_metrics(y[test_idx], preds)
                 f1_scores.append(f1)
-                
+
             avg_f1 = np.mean(f1_scores)
-            
+
+            self.cv_results_.append({
+                'param_alpha': params.get('alpha'),
+                'param_fit_prior': params.get('fit_prior'),
+                'mean_test_score': avg_f1,
+                'std_test_score': np.std(f1_scores)
+            })
+
             if avg_f1 > self.best_score_:
                 self.best_score_ = avg_f1
                 self.best_params_ = params
+
+        sorted_indices = np.argsort([-res['mean_test_score'] for res in self.cv_results_])
+        for rank, idx in enumerate(sorted_indices, 1):
+            self.cv_results_[idx]['rank_test_score'] = rank
 
         # Train final model on all data with the best parameters
         self.best_estimator_ = CustomMultinomialNB(**self.best_params_)
