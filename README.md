@@ -20,8 +20,7 @@ The system processes raw email text, extracts meaningful features, trains a Naiv
   - `preprocessing.py` — Text cleaning and feature extraction
   - `model_logic.py` — Model training and evaluation
   - `eval_plots.py` — Evaluation metrics and visualization functions
-- `main.py` — Main script to run the entire pipeline
-- `plots/` — Generated visualizations (created after running main.py)
+- `plots/` — Generated visualizations
   - `confusion_matrix.png` — Confusion matrix heatmap
   - `top_features.png` — Top words per class bar charts
   - `class_distribution.png` — Class distribution bar chart
@@ -70,12 +69,13 @@ The system processes this raw text through multiple preprocessing steps before f
 * **Text Length Analysis:** Histograms comparing email lengths by class
 
 ## Built With
-
 * **Language:** Python 3.14
 * **Machine Learning:** scikit-learn (Naive Bayes, GridSearchCV, TF-IDF)
 * **Data Processing:** pandas, numpy
 * **Natural Language:** NLTK (stopwords)
 * **Visualization:** matplotlib, seaborn
+* **Environment:** Virtual environment (venv)
+
 ## Getting Started
 
 ### Prerequisites
@@ -88,26 +88,33 @@ The system processes this raw text through multiple preprocessing steps before f
    ```bash
    cd email-classification-model
    ```
-3. Install dependencies:
+3. Create a virtual environment:
+   ```bash
+   python3 -m venv venv
+   ```
+4. Activate the virtual environment:
+   - **Windows:**
+     ```bash
+     venv\Scripts\activate
+     ```
+   - **Mac/Linux:**
+     ```bash
+     source venv/bin/activate
+     ```
+5. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
 ## Usage
 
-### Running the Complete Pipeline
-Execute the main script to run data loading, preprocessing, training, evaluation, and visualization generation:
+### Running the Pipeline
+You can use the modules in the `src/` directory to run the email classification pipeline. Import and use the functions from each module:
 
-```bash
-python main.py
-```
-
-This will:
-- Load training and test datasets
-- Preprocess email text (cleaning, vectorization)
-- Train Multinomial Naive Bayes with hyperparameter tuning
-- Evaluate model performance on test set
-- Generate and save visualizations in the `plots/` directory
+- **Data Loading:** Use `data_loader.py` to load training and test datasets
+- **Preprocessing:** Use `preprocessing.py` to clean text and extract features
+- **Model Training:** Use `model_logic.py` to train and evaluate the Naive Bayes model
+- **Visualization:** Use `eval_plots.py` to generate performance visualizations
 
 ### Expected Output
 ```
@@ -170,21 +177,9 @@ param_grid = {
 }
 ```
 
-**Visualization Configuration** (`main.py`):
-```python
-# Number of top features to display
-n=15  # Adjust for more/less top words
-```
-
 ## 📈 Visualizations
 
-After running `main.py`, the following visualizations are generated:
-
-### 1. Confusion Matrix
-
-<img width="600" height="400" alt="confusion_matrix" src="https://github.com/user-attachments/assets/4a10ee77-07fe-4764-97a9-8f27613e725f" />
-
-Shows the number of true positives, true negatives, false positives, and false negatives. Helps understand the model's classification performance and identify areas for improvement.
+The pipeline generates the following visualizations during model evaluation, and false negatives. Helps understand the model's classification performance and identify areas for improvement.
 
 ### 2. Top Features per Class
 
@@ -225,13 +220,12 @@ graph TD
 Common issues and solutions:
 
 * **ModuleNotFoundError: No module named 'src'**
-  - Ensure you're running `python main.py` from the project root directory
   - Check that all files in `src/` exist
 
 * **FileNotFoundError: Dataset files not found**
   - Verify that `data/spam_train_10000.csv` and `data/spam_test_1000.csv` exist
   - Ensure the data files are not corrupted
-
+your script
 * **NLTK Stopwords Download Error**
   - The code automatically downloads NLTK stopwords on first run
   - If download fails, manually run: `python -c "import nltk; nltk.download('stopwords')"`
@@ -266,16 +260,18 @@ email-classification-model/
 │   ├── top_features.png
 │   ├── class_distribution.png
 │   └── text_length_distribution.png
-├── main.py                     # Main execution script
+├── venv/                       # Virtual environment (created)
+├── notebooks/
+│   └── spam_classifier.ipynb   # Jupyter notebook for interactive analysis
+├── plots/                      # Generated visualizations
+│   ├── confusion_matrix.png
+│   ├── top_features.png
+│   ├── class_distribution.png
+│   └── text_length_distribution.png
+├── venv/                       # Virtual environment (created)
 ├── requirements.txt            # Python dependencies
-├── README.md                   # Project documentation
-└── .gitignore                  # Git ignore rules
-```
+└── README.md                   # Project documentationne learning fundamentals
 
-## Acknowledgments
-
-* Dataset source: Email spam classification dataset
-* Inspired by the need to understand NLP and machine learning fundamentals
 * Thanks to the scikit-learn community for comprehensive ML documentation
 * NLTK project for natural language processing tools
 * Matplotlib and Seaborn for data visualization capabilities
