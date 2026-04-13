@@ -92,23 +92,7 @@ The system processes this raw text through multiple preprocessing steps before f
    ```bash
    pip install -r requirements.txt
    ```
-
-## Usage
-
-### Running the Complete Pipeline
-Execute the main script to run data loading, preprocessing, training, evaluation, and visualization generation:
-
-```bash
-python main.py
-```
-
-This will:
-- Load training and test datasets
-- Preprocess email text (cleaning, vectorization)
-- Train Multinomial Naive Bayes with hyperparameter tuning
-- Evaluate model performance on test set
-- Generate and save visualizations in the `plots/` directory
-
+   
 ### Expected Output
 ```
 Datasets loaded successfully!
