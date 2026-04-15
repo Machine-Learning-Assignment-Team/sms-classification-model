@@ -25,16 +25,3 @@ def load_datasets():
         return None, None
 
 
-# --- Main execution block for testing ---
-if __name__ == "__main__":
-    train_df, test_df = load_datasets()
-
-    # Only try to print if the data was actually loaded (fixes NameError)
-    if train_df is not None:
-        print("\n--- Training Set: First 5 Rows ---")
-        print(train_df.head())
-
-        print("\n--- Test Set: First 5 Rows ---")
-        print(test_df.head())
-    else:
-        print("Stopping execution because data could not be loaded.")
