@@ -1,18 +1,12 @@
 import numpy as np
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 def calculate_metrics(y_true, y_pred):
-    y_true, y_pred = np.array(y_true), np.array(y_pred)
-    
-    tp = np.sum((y_true == 1) & (y_pred == 1))
-    tn = np.sum((y_true == 0) & (y_pred == 0))
-    fp = np.sum((y_true == 0) & (y_pred == 1))
-    fn = np.sum((y_true == 1) & (y_pred == 0))
-    
-    accuracy = (tp + tn) / len(y_true) if len(y_true) > 0 else 0
-    precision = tp / (tp + fp) if (tp + fp) > 0 else 0
-    recall = tp / (tp + fn) if (tp + fn) > 0 else 0
-    f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-    
+    accuracy = accuracy_score(y_true ,y_pred)
+    precision = precision_score(y_true, y_pred, zero_division=0)
+    recall = recall_score(y_true, y_pred, zero_division=0)
+    f1 = f1_score(y_true, y_pred, zero_division=0)
+
     return accuracy, precision, recall, f1
 
 
