@@ -1,27 +1,15 @@
 # Part 1: Project Setup and Data Loading
 
 import pandas as pd
-import os
-
-# Get the directory where this script is located
-base_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Construct paths to data files (going one level up from 'src' to the root)
-train_path = os.path.join(base_dir, '..', 'data', 'spam_train_10000.csv')
-test_path = os.path.join(base_dir, '..', 'data', 'spam_test_1000.csv')
-
+from sklearn.model_selection import train_test_split
 
 def load_datasets():
     """
     Loads the train and test CSV files and returns them as DataFrames.
     """
-    if os.path.exists(train_path) and os.path.exists(test_path):
-        train_df = pd.read_csv(train_path)
-        test_df = pd.read_csv(test_path)
-        print("Datasets loaded successfully!")
-        return train_df, test_df
-    else:
-        print(f"Error: Dataset files not found at: {os.path.abspath(os.path.join(base_dir, '..', 'data'))}")
-        return None, None
+    df = pd.read_csv("../data/Spam_SMS.csv")
+    df = df.rename(columns={'Message': 'text', 'Class': 'label'})
+    df['label'] = df['label'].map({'spam': 1, 'ham': 0})
+    train_df, test_df=train_test_split(df, test_size=0.2, random_state=42)
 
-
+    return train_df, test_df

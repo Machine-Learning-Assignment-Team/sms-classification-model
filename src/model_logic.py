@@ -1,8 +1,9 @@
 import numpy as np
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
+
 def calculate_metrics(y_true, y_pred):
-    accuracy = accuracy_score(y_true ,y_pred)
+    accuracy = accuracy_score(y_true, y_pred)
     precision = precision_score(y_true, y_pred, zero_division=0)
     recall = recall_score(y_true, y_pred, zero_division=0)
     f1 = f1_score(y_true, y_pred, zero_division=0)
@@ -20,26 +21,26 @@ class CustomMultinomialNB:
         self.classes_ = np.unique(y)
         n_classes = len(self.classes_)
         n_samples, n_features = X.shape
-        
+
         self.class_log_prior_ = np.zeros(n_classes)
         self.feature_log_prob_ = np.zeros((n_classes, n_features))
-        
+
         for idx, c in enumerate(self.classes_):
             X_c = X[y == c]
             feature_counts = np.asarray(X_c.sum(axis=0)).flatten()
-            
+
             # Laplace smoothing to prevent zero probabilities
             smoothed_fc = feature_counts + self.alpha
             smoothed_cc = smoothed_fc.sum()
-            
+
             # Using log probabilities to prevent numerical underflow
             self.feature_log_prob_[idx, :] = np.log(smoothed_fc / smoothed_cc)
-            
+
             if self.fit_prior:
                 self.class_log_prior_[idx] = np.log(X_c.shape[0] / n_samples)
             else:
                 self.class_log_prior_[idx] = np.log(1.0 / n_classes)
-                
+
         return self
 
     def predict(self, X):
@@ -57,17 +58,17 @@ class CustomGridSearch:
         keys = list(param_grid.keys())
         values = list(param_grid.values())
         combinations = []
-        
+
         def build_combos(current_combo, depth):
             if depth == len(keys):
                 combinations.append(dict(current_combo))
                 return
-            
+
             current_key = keys[depth]
             for val in values[depth]:
                 current_combo[current_key] = val
                 build_combos(current_combo, depth + 1)
-                
+
         build_combos({}, 0)
         return combinations
 
@@ -78,11 +79,11 @@ class CustomGridSearch:
         y = np.array(y)
         n_samples = X.shape[0]
         indices = np.arange(n_samples)
-        
+
         # Simple K-Fold manual split
         fold_sizes = np.full(self.cv, n_samples // self.cv, dtype=int)
         fold_sizes[:n_samples % self.cv] += 1
-        
+
         folds = []
         current = 0
         for size in fold_sizes:
@@ -91,15 +92,15 @@ class CustomGridSearch:
 
         for params in combinations:
             f1_scores = []
-            
+
             for start, stop in folds:
                 test_idx = indices[start:stop]
                 train_idx = np.concatenate([indices[:start], indices[stop:]])
-                
+
                 model = CustomMultinomialNB(**params)
                 model.fit(X[train_idx], y[train_idx])
                 preds = model.predict(X[test_idx])
-                
+
                 _, _, _, f1 = calculate_metrics(y[test_idx], preds)
                 f1_scores.append(f1)
 

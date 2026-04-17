@@ -1,16 +1,10 @@
 import re
-import string
-import nltk
-from nltk.corpus import stopwords
-
-#Downloading the stopwords
-nltk.download('stopwords')
-STOP_WORDS = set(stopwords.words('english'))
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
 
 def clean_text(text):
     """
-    Cleans raw text by removing punctuation, digits/gibberish, and stopwords.
+    Cleans raw text by removing URLs, punctuation, and stopwords (using sklearn).
     Returns a single string of cleaned words.
     """
     if text is None:
@@ -18,20 +12,16 @@ def clean_text(text):
     # Text to lowercase:
     text = text.lower()
 
-    # Removing punctuation:
-    translator = str.maketrans('','',string.punctuation)
-    text = text.translate(translator)
+    # Pattern to match urls
+    pattern = r'https?://\S+'
+    text = re.sub(pattern, '', text)
 
-    #Gibberish Removal
-    #Pattern to match words with at least one digit
-    pattern = r'\b[a-z]*\d[a-z\d]*\b'
-
-    #removing the words that has both letters and numbers
-    text = re.sub(pattern,'',text)
-
+    # Removing punctuation and newline:
+    text = re.sub(r'[^\w\s]',' ',text)
+    text = text.strip()
 
     # getting only words that are not in the stop words
-    words_list = [word for word in text.split() if word not in STOP_WORDS]
+    words_list = [word for word in text.split() if word not in ENGLISH_STOP_WORDS]
 
     return  " ".join(words_list)
 
@@ -51,7 +41,6 @@ def vectorize_data(train_texts, test_texts):
     Converts text to binary vectors (0 or 1) based on word presence.
     Uses CountVectorizer with binary=True as per assignment requirements.
     """
-    #Creating the CountVectorizer object
     vectorizer = CountVectorizer(max_features=5000,binary=True)
 
     #Fit and Transform on the train text
