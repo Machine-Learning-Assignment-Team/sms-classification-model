@@ -1,16 +1,10 @@
 import re
-import string
-import nltk
-from nltk.corpus import stopwords
-
-#Downloading the stopwords
-nltk.download('stopwords')
-STOP_WORDS = set(stopwords.words('english'))
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
 
 def clean_text(text):
     """
-    Cleans raw text by removing punctuation, gibberish, and stopwords.
+    Cleans raw text by removing URLs, punctuation, and stopwords (using sklearn).
     Returns a single string of cleaned words.
     """
     if text is None:
@@ -27,7 +21,7 @@ def clean_text(text):
     text = text.strip()
 
     # getting only words that are not in the stop words
-    words_list = [word for word in text.split() if word not in STOP_WORDS]
+    words_list = [word for word in text.split() if word not in ENGLISH_STOP_WORDS]
 
     return  " ".join(words_list)
 
