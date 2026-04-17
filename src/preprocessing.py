@@ -51,17 +51,3 @@ def vectorize_data(train_texts, test_texts):
 
     return  X_train_transformed, X_test_transformed, vectorizer
 
-if __name__ == "__main__":
-    test_messages = [
-        "WINNER!! Call 0800-123-456 today to claim your $1000 prize!",
-
-        "Hey, check out this link: http://example.com/xyz \n\n It is awesome 100%",
-
-        "hello-world...how are you doing today? call me at 9pm.",
-    ]
-
-    print("--- Testing clean_text function ---\n")
-    for i, msg in enumerate(test_messages):
-        print(f"Original {i + 1}: {msg}")
-        print(f"Cleaned  {i + 1}: {clean_text(msg)}")
-        print("-" * 50)
