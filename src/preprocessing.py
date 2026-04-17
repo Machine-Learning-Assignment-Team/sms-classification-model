@@ -25,15 +25,6 @@ def clean_text(text):
 
     return  " ".join(words_list)
 
-def encode_labels(df, label_column):
-    """
-    Encodes categorical labels into binary integers.
-    Mapping: 'Spam' -> 1, 'Not Spam' -> 0
-    """
-    mapping = {'Spam': 1,'Not Spam': 0}
-    df[label_column] = df[label_column].map(mapping)
-    return df
-
 from sklearn.feature_extraction.text import CountVectorizer
 
 def vectorize_data(train_texts, test_texts):
