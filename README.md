@@ -1,134 +1,96 @@
 # SMS Classification Model
 
-A machine learning project for classifying SMS messages as spam or not spam using Natural Language Processing (NLP) techniques and a Multinomial Naive Bayes classifier. The project demonstrates text preprocessing, feature extraction, model training, evaluation, and visualization on a real-world SMS dataset.
+A machine learning project for classifying SMS messages as spam or ham (legitimate) using Natural Language Processing (NLP) techniques and a **custom-built** Multinomial Naive Bayes algorithm. This project demonstrates raw text preprocessing, feature engineering, mathematical model implementation from scratch, and advanced evaluation metrics.
+
 
 ## About The Project
 
 <img width="600" height="400" alt="confusion_matrix" src="confusion_matrix.png" />
 <img width="1200" height="500" alt="top_features" src="top_features.png" />
 
-The objective of this project is to build an accurate SMS spam classifier. The pipeline includes text cleaning, stopword removal, binary feature extraction, and a custom Naive Bayes implementation.
+The goal of this project is to build an effective spam classifier for SMS messages. Instead of relying on pre-built "black-box" models, the core Machine Learning algorithm (Multinomial Naive Bayes) and the optimization logic (Grid Search) were **implemented from scratch** using NumPy and Pandas. 
 
-The system processes raw SMS text, extracts relevant features, trains a classifier using hyperparameter tuning, and generates evaluation plots to analyze model performance.
+The system processes raw SMS text, extracts meaningful features using a Bag of Words approach, trains the custom model with Laplace Smoothing, and provides comprehensive evaluation metrics.
 
-## Project Structure
-
-- `data/` — Contains the dataset
-  - `Spam_SMS.csv` — SMS messages labeled as spam or ham
-- `src/` — Source code modules
-  - `data_loader.py` — Loads and splits dataset files
-  - `preprocessing.py` — Cleans text and extracts features
-  - `model_logic.py` — Trains and evaluates the model
-  - `eval_plots.py` — Generates evaluation visualizations
-- `notebooks/` — Jupyter notebook for interactive exploration
-  - `spam_classifier.ipynb`
-- `main.py` — Entry point for running the pipeline
-- `requirements.txt` — Python dependencies
-- `README.md` — Project documentation
-
- - `confusion_matrix.png`
- - `top_features.png`
- - `class_distribution.png`
- - `text_length_distribution.png`
+**Dataset Source:** [Spam SMS Classification Using NLP (Kaggle)](https://www.kaggle.com/datasets/mariumfaheem666/spam-sms-classification-using-nlp/data)
 
 ## Data Schema
 
-The dataset is stored in CSV format and contains raw SMS text with labels.
+The system processes the **SMS Spam Collection Dataset**. While the original dataset contained `Class` (ham/spam) and `Message` columns, we performed **Label Encoding** and column renaming during the initial preprocessing stage to prepare the data for our custom model.
 
-**File Format:** `Spam_SMS.csv`
+**Original Mapping:**
+* `ham` → `0`
+* `spam` → `1`
 
-```csv
-Message,Class
-"Join this group and celebrate with us on 21 Oct. Visit...",spam
-"Hey, how are you doing? Let me know!",ham
-"Congratulations! You've won a prize. Click here to claim.",spam
-```
+**Current File Format:** `Spam_SMS.csv` (Processed)
 
-| Column    | Type | Description     | Values        |
-|-----------|------|-----------------|---------------|
-| `Message` | TEXT | Raw SMS content | Any string    |
-| `Class`   | TEXT | Spam label      | `spam`, `ham` |
+~~~csv
+text,label
+"Ok lar... Joking wif u oni...",0
+"URGENT! You have won a 1 week FREE membership in our £100,000 Prize Jackpot! Txt the word: CLAIM to ...",1
+"Fine if that’s the way u feel. That’s the way its gota b",0
+~~~
+
+| Column | Type | Description | Values |
+|:-------|:-----|:------------|:-------|
+| `text` | TEXT | Cleaned SMS content | Any string |
+| `label` | INT | Spam classification (Encoded) | 1 (Spam), 0 (Ham) |
 
 ## Key Features
 
-### Data Preprocessing
-- Text cleaning: lowercasing, URL removal, punctuation removal
-- Stopword removal using sklearn
-- Binary feature extraction with CountVectorizer
-- Label encoding to binary values (0 = ham, 1 = spam)
+### Data Preprocessing & Feature Engineering
+* **Text Cleaning:** Regex-based removal of URLs, punctuation, and newline characters.
+* **Stopword Removal:** Filters out common English stopwords using `sklearn.feature_extraction.text.ENGLISH_STOP_WORDS`.
+* **Feature Extraction:** Compared `CountVectorizer` (Binary) and `TfidfVectorizer` to determine the best Bag of Words representation for SMS data.
 
-### Model Training
-- Multinomial Naive Bayes classifier
-- Hyperparameter tuning with 5-fold cross-validation
-- Evaluation metrics: accuracy, precision, recall, F1-score
+### Custom Model Training (From Scratch)
+* **Algorithm:** `CustomMultinomialNB` — Built strictly using `numpy` and `pandas`. Uses log-probabilities to prevent mathematical underflow.
+* **Hyperparameter Tuning:** Custom `GridSearchCV` implementation to find the optimal Laplace Smoothing parameter (Alpha) using 5-fold cross-validation.
 
-### Visualization and Analysis
-- Confusion matrix heatmap
-- Top feature words per class
-- Class distribution bar chart
-- Text length distribution histograms
+### Evaluation & Analysis
+* **Explainability (Top Features):** Extracts log-probabilities from the custom model to identify the most influential words for classification.
+* **Advanced Metrics:** Computes the ROC Curve and AUC Score to evaluate performance.
+* **Confusion Matrix:** Analysis of prediction accuracy, emphasizing the minimization of False Positives.
 
 ## Built With
+* **Language:** Python
+* **Data Processing & Math:** `pandas`, `numpy`
+* **Feature Engineering & Metrics:** `scikit-learn`
+* **Environment:** Jupyter Notebook
 
-- Python 3.7+
-- scikit-learn
-- pandas
-- numpy
-- matplotlib
-- seaborn
-
-## Getting Started
+### Prerequisites
+* Python 3.x
+* pip package manager
 
 ### Installation
-
-1. Clone or download the repository.
+1. Clone or download the repository
 2. Navigate to the project directory:
    ```bash
-   cd sms-classification-model-main
+   cd sms-classification-model
    ```
-3. Install dependencies:
+3. Create and activate a virtual environment:
+   - **Windows:**
+     ```bash
+     python -m venv venv
+     venv\Scripts\activate
+     ```
+   - **Mac/Linux:**
+     ```bash
+     python3 -m venv venv
+     source venv/bin/activate
+     ```
+4. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
 ## Usage
-
-### Running the Pipeline
-
-Execute the main script to run the complete pipeline:
-
-This script will:
-- Load the SMS dataset
-- Preprocess the text data
-- Vectorize messages into binary features
-- Train the Naive Bayes model with hyperparameter tuning
-- Display performance metrics
-
 ### Interactive Notebook
 
 For interactive exploration, use the notebook:
 
 ```bash
 jupyter notebook notebooks/spam_classifier.ipynb
-```
-
-## Expected Output
-
-Example terminal output:
-
-```text
-============================================================
-SMS SPAM CLASSIFICATION MODEL
-============================================================
-
-Step 1: Setting up directories...
-Step 2: Loading datasets...
-Step 3: Preprocessing text data...
-Step 4: Training model with hyperparameter tuning...
-Step 5: Generating evaluation plots...
-============================================================
-PIPELINE COMPLETE!
-============================================================
 ```
 
 ## Configuration
@@ -143,8 +105,8 @@ vectorizer = CountVectorizer(max_features=5000, binary=True)
 
 ```python
 param_grid = {
-    'alpha': [0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0],
-    'fit_prior': [True, False]
+    'alpha': [0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0],
+    'fit_prior': [True, False]
 }
 ```
 
@@ -168,33 +130,41 @@ param_grid = {
 
 ## Troubleshooting
 
-- If `ModuleNotFoundError: No module named 'src'` occurs, ensure you are running from the project root.
-- If the dataset cannot be found, verify that `data/Spam_SMS.csv` exists.
-- If vectorization exhausts memory, reduce `max_features` in `src/preprocessing.py`.
-- If model performance is poor, review the class distribution and adjust hyperparameters.
+* **ModuleNotFoundError: No module named 'src'**
+  - Ensure you are running the scripts or Jupyter notebook from the root directory of the project.
+* **FileNotFoundError: Dataset files not found**
+  - Verify that `Spam_SMS.csv` is correctly placed inside the `data/` directory.
+* **Memory Errors**
+  - If vectorization exhausts memory, reduce `max_features` in `src/preprocessing.py`.
+* **Requirements Installation Fails**
+  - Make sure you are in the directory containing `requirements.txt`. Note: `re` and `string` are built-in Python modules and do not need to be installed.
 
 ## Project Structure
 
-```
-sms-classification-model-main/
+```text
+sms-classification-model/
 ├── data/
-│   └── Spam_SMS.csv
+│   └── Spam_SMS.csv                # SMS Dataset (~5,574 messages)
 ├── src/
-│   ├── data_loader.py
-│   ├── preprocessing.py
-│   ├── model_logic.py
-│   └── eval_plots.py
-├── assets/
-│   ├── confusion_matrix.png
-│   ├── top_features.png
-│   ├── class_distribution.png
-│   └── text_length_distribution.png
+│   ├── data_loader.py              # Data loading utilities
+│   ├── preprocessing.py            # Text preprocessing & vectorization
+│   ├── model_logic.py              # Custom Model & GridSearch logic
+│   └── eval_plots.py               # Metrics and visualizations logic
 ├── notebooks/
-│   └── spam_classifier.ipynb
-├── requirements.txt
-└── README.md
+│   └── spam_classifier.ipynb       # Main Jupyter Notebook
+├── class_distribution.png          # Generated visualization
+├── confusion_matrix.png            # Generated visualization
+├── text_length_distribution.png    # Generated visualization
+├── top_features.png                # Generated visualization
+├── requirements.txt                # Python dependencies
+└── README.md                       # Project documentation
 ```
+
+## Acknowledgements
+* Dataset originally compiled and provided by **Marium Masroor** on Kaggle.
+* Thanks to the scikit-learn community for their comprehensive ML documentation.
+* Matplotlib and Seaborn for data visualization capabilities.
+* The open-source Python community for their extensive libraries and resources.
 
 ## License
-
-This project is provided for educational and research purposes.
+This project is licensed under the MIT License. It was developed as a final academic assignment for a Machine Learning course.
